@@ -1,6 +1,5 @@
 mod to_do;
 
-use to_do::structs::pending::Pending;
 use to_do::enum_factory::to_do_factory;
 use to_do::enums::TaskStatus;
 
