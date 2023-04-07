@@ -1,15 +1,21 @@
-use std::fmt;
-
 pub enum TaskStatus {
   DONE,
   PENDING
 }
 
-impl fmt::Display for TaskStatus {
-  fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+impl TaskStatus {
+ pub fn stringify(&self) -> String {
     match &self {
-      &Self::DONE => {write!(f, "Done")},
-      &Self::PENDING => {write!(f, "Pending")}
+      &Self::DONE => "Done".to_string(),
+      &Self::PENDING => "Pending".to_string()
+    }
+  }
+
+  pub fn from_string(input: String) -> Self {
+    match input.as_str() {
+      "DONE" => TaskStatus::DONE,
+      "PENDING" => TaskStatus::PENDING,
+      _ => panic!("input {} not supported", input)
     }
   }
 }
