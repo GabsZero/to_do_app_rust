@@ -15,7 +15,7 @@ fn main() {
     let command: &String = &args[1];
     let title: &String = &args[2];
 
-    let mut state: Map<String, Value> = read_file("./state.json");
+    let state: Map<String, Value> = read_file("./state.json");
     let status: String;
 
     match &state.get(*&title) {
