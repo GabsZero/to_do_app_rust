@@ -5,10 +5,6 @@ mod state;
 mod to_do;
 mod processes;
 
-async fn greet(req: HttpRequest) -> impl Responder {
-    let name = req.match_info().get("name").unwrap_or("World");
-    format!("Hello {}!", name)
-}
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     HttpServer::new(|| {
