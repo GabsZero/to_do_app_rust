@@ -1,32 +1,16 @@
-mod state;
-mod to_do;
-mod processes;
+use actix_web::{web, App, HttpServer, Responder, HttpRequest};
 
-use std::env;
-use state::read_file;
-use serde_json::value::Value;
-use serde_json::{Map};
-use to_do::enum_factory::to_do_factory;
-use to_do::enums::TaskStatus;
-use processes::process_input;
-
-fn main() {
-    let args: Vec<String> = env::args().collect();
-    let command: &String = &args[1];
-    let title: &String = &args[2];
-
-    let state: Map<String, Value> = read_file("./state.json");
-    let status: String;
-
-    match &state.get(*&title) {
-        Some(result) => {
-            status = result.to_string().replace('\"', "");
-        },
-        None => {
-            status = "pending".to_owned();
-        }
-    }
-
-    let item = to_do_factory(title, TaskStatus::from_string(status.to_uppercase()));
-    process_input(item, command.to_string(), &state);
+async fn greet(req: HttpRequest) -> impl Responder {
+    let name = req.match_info().get("name").unwrap_or("World");
+    format!("Hello {}!", name)
+}
+#[actix_web::main]
+async fn main() -> std::io::Result<()> {
+    HttpServer::new(|| {
+        println!("http server factory is firing");
+        App::new()
+        .route("/", web::get().to(greet))
+        .route("/{name}", web::get().to(greet))
+        .route("/say/hello", web::get().to(|| async { "Hello Again!" }))
+    }).bind("127.0.0.1:8080")?.workers(3).run().await
 }
