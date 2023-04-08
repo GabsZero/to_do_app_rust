@@ -3,9 +3,9 @@ mod to_do;
 mod processes;
 
 use std::env;
-use state::{write_to_file, read_file};
+use state::read_file;
 use serde_json::value::Value;
-use serde_json::{Map, json};
+use serde_json::{Map};
 use to_do::enum_factory::to_do_factory;
 use to_do::enums::TaskStatus;
 use processes::process_input;
